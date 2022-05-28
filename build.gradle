@@ -1,16 +1,43 @@
 plugins {
-    id 'java'
+    id 'org.springframework.boot' version '2.7.0'
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "java"
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+ext {
+    axonVersion = "4.5.9"
+    lombokVersion = "1.18.24"
+    h2Version = "2.1.212"
+}
 
-sourceCompatibility = 1.8
+group "io.cqrseventsourcing"
+version "1.0-SNAPSHOT"
+
+sourceCompatibility = 11
+
+springBoot {
+    mainClass = "io.cqrseventsourcing.Application"
+}
 
 repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.axonframework:axon-bom:$axonVersion"
+    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation "org.axonframework:axon-spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    runtimeOnly "com.h2database:h2:$h2Version"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }

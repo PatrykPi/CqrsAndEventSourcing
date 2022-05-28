@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  axon-server:
+    image: axoniq/axonserver:4.5.12-dev
+    ports:
+    - 8024:8024
+    - 8124:8124
+    networks:
+      - main
+
+networks:
+  main:
